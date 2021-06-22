@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "599466744393",
+    "project_id": "children-of-corn",
+    "storage_bucket": "children-of-corn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599466744393:android:77da504c09e36a93953d98",
+        "android_client_info": {
+          "package_name": "com.childrenofcorn.eldorado"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599466744393-79bv994k3u2rgp07gt17fnpasa9evjd8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAceCyPUjCNIMVroYsKCuATD1XJUVKFYy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599466744393-79bv994k3u2rgp07gt17fnpasa9evjd8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "599466744393-0jb96ddu0atrr9b5bi0oh5bnl1au15gh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.childrenofcorn.eldorado"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

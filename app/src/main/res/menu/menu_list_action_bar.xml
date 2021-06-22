@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_reset"
+        android:icon="@drawable/ic_baseline_delete_forever_24"
+        android:title="Reset"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_scan"
+        android:icon="@drawable/ic_baseline_qr_code_scanner_24"
+        android:title="Scan"
+        app:showAsAction="ifRoom" />
+</menu>

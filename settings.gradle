@@ -1,0 +1,2 @@
+rootProject.name = "cBasket"
+include ':app'

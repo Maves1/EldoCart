@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Eldorado</string>
+    <string name="dialog_anonymous_list_message">Клиент хочет остаться анонимным?</string>
+    <string name="dialog_user_phone_message">Введите номер телефона клиента</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="proceed">Продолжить</string>
+    <string name="check_credentials">Проверьте правильность логина и пароля</string>
+    <string name="upload_successful">Список отправлен успешно!</string>
+</resources>
