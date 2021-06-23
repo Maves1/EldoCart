@@ -147,8 +147,8 @@ class ListActivity : AppCompatActivity() {
         lateinit var productName: String
         var productPrice: String
 
-        try {
-            Thread(Runnable {
+        Thread(Runnable {
+            try {
                 document = parser.getDocument()
 
                 productImageLink = parser.getProductImageLink(document)
@@ -171,10 +171,12 @@ class ListActivity : AppCompatActivity() {
                     )
                     listAdapter.notifyDataSetChanged()
                 }
-            }).start()
-        } catch (e: Exception) {
-            Toast.makeText(this, R.string.incorrect_link, Toast.LENGTH_SHORT).show()
-        }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    Toast.makeText(applicationContext, R.string.incorrect_link, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }).start()
     }
 
     fun uploadListToFirebase(list: ArrayList<Product>,
