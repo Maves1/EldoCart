@@ -145,17 +145,15 @@ class ListActivity : AppCompatActivity() {
         lateinit var document: Document
         lateinit var productImageLink : String
         lateinit var productName: String
-        var productPrice: Int
+        var productPrice: String
 
 
         Thread(Runnable {
             document = parser.getDocument()
 
-            val regex = Regex("\\D")
-
             productImageLink = parser.getProductImageLink(document)
             productName = parser.getProductName(document)
-            productPrice = regex.replace(parser.getProductPrice(document), "").toInt()
+            productPrice = parser.getProductPrice(document)
 
             Log.d("Received product name", productName)
             Log.d("Received product price", productPrice.toString())
