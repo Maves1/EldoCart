@@ -9,4 +9,5 @@
     <string name="upload_successful">Список отправлен успешно!</string>
     <string name="something_went_wrong">Проверьте правильность номера</string>
     <string name="empty_screen">Пока что тут пусто.\nДобавьте товар, нажав на кнопку сканирования в правом верхнем углу</string>
+    <string name="incorrect_link">Похоже, что QR код содержит некорректную ссылку</string>
 </resources>

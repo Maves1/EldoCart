@@ -147,24 +147,34 @@ class ListActivity : AppCompatActivity() {
         lateinit var productName: String
         var productPrice: String
 
+        try {
+            Thread(Runnable {
+                document = parser.getDocument()
 
-        Thread(Runnable {
-            document = parser.getDocument()
+                productImageLink = parser.getProductImageLink(document)
+                productName = parser.getProductName(document)
+                productPrice = parser.getProductPrice(document)
 
-            productImageLink = parser.getProductImageLink(document)
-            productName = parser.getProductName(document)
-            productPrice = parser.getProductPrice(document)
+                Log.d("Received product name", productName)
+                Log.d("Received product price", productPrice.toString())
+                Log.d("Received product image", productImageLink)
 
-            Log.d("Received product name", productName)
-            Log.d("Received product price", productPrice.toString())
-            Log.d("Received product image", productImageLink)
-
-            runOnUiThread {
-                binding.textViewEmptyScreen.visibility = View.GONE
-                productsArray.add(Product(productName, productPrice, productImageLink, parser.getProductURL()))
-                listAdapter.notifyDataSetChanged()
-            }
-        }).start()
+                runOnUiThread {
+                    binding.textViewEmptyScreen.visibility = View.GONE
+                    productsArray.add(
+                        Product(
+                            productName,
+                            productPrice,
+                            productImageLink,
+                            parser.getProductURL()
+                        )
+                    )
+                    listAdapter.notifyDataSetChanged()
+                }
+            }).start()
+        } catch (e: Exception) {
+            Toast.makeText(this, R.string.incorrect_link, Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun uploadListToFirebase(list: ArrayList<Product>,
