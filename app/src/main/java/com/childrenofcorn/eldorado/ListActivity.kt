@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
 import org.jsoup.nodes.Document
 import com.childrenofcorn.eldorado.databinding.ActivityListBinding
@@ -24,6 +27,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -36,6 +40,8 @@ class ListActivity : AppCompatActivity() {
     private lateinit var parser: ProductParser
 
     private lateinit var db: FirebaseFirestore
+
+    private var herokuWebsiteURL = "http://children-of-corn-eldorado.herokuapp.com/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,8 +81,12 @@ class ListActivity : AppCompatActivity() {
                 val productToDelete = listAdapter.getItemAtPositition(viewHolder.adapterPosition)
                 val productPosition = viewHolder.adapterPosition
                 listAdapter.deleteItemAtPosition(viewHolder.adapterPosition)
+                if (listAdapter.itemCount == 0) {
+                    binding.textViewEmptyScreen.visibility = View.VISIBLE
+                }
                 Snackbar.make(binding.root, productToDelete.name, Snackbar.LENGTH_LONG)
                     .setAction("Undo", View.OnClickListener {
+                        binding.textViewEmptyScreen.visibility = View.GONE
                         productsArrayList.add(productPosition, productToDelete)
                         listAdapter.notifyDataSetChanged()
                     }).show()
@@ -117,6 +127,7 @@ class ListActivity : AppCompatActivity() {
         }
 
         R.id.action_reset -> {
+            binding.textViewEmptyScreen.visibility = View.VISIBLE
             productsArrayList.clear()
             listAdapter.notifyDataSetChanged()
             true
@@ -151,6 +162,7 @@ class ListActivity : AppCompatActivity() {
             Log.d("Received product image", productImageLink)
 
             runOnUiThread {
+                binding.textViewEmptyScreen.visibility = View.GONE
                 productsArray.add(Product(productName, productPrice, productImageLink, parser.getProductURL()))
                 listAdapter.notifyDataSetChanged()
             }
@@ -183,6 +195,25 @@ class ListActivity : AppCompatActivity() {
                         .update("refs", FieldValue.arrayUnion(db.document("/carts/$cartID")))
                 }
                 Toast.makeText(this, R.string.upload_successful, Toast.LENGTH_SHORT).show()
+
+                if (cartID != null) {
+                    Log.d("CartID", cartID)
+                }
+
+                val queue = Volley.newRequestQueue(this)
+                var url = herokuWebsiteURL + "send-email/$cartID"
+
+                val stringRequest = StringRequest(
+                    Request.Method.GET, url,
+                    { response ->
+                    },
+                    { })
+
+                queue.add(stringRequest)
+
+                val intent = Intent(this, QRActivity::class.java)
+                intent.putExtra("URL", herokuWebsiteURL + cartID)
+                startActivity(intent)
             }
         }
     }
@@ -196,7 +227,15 @@ class ListActivity : AppCompatActivity() {
             R.string.proceed,
             DialogInterface.OnClickListener { dialog, which ->
                 var userPhoneNumber = view.findViewById<EditText>(R.id.edit_text_phone).text.toString()
-                uploadListToFirebase(productsArrayList, false, userPhoneNumber)
+                if (userPhoneNumber != "") {
+                    try {
+                        uploadListToFirebase(productsArrayList, false, userPhoneNumber)
+                    } catch (e: Exception) {
+                        Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
+                }
             })
         var alertDialog = alertDialogBuilder.create()
         return alertDialog

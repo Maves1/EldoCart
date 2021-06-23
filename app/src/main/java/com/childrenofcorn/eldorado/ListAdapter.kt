@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import org.w3c.dom.Text
 
 class ListAdapter(private val dataSet: ArrayList<Product>) :
     RecyclerView.Adapter<ListAdapter.ViewHolder>() {
@@ -17,11 +18,9 @@ class ListAdapter(private val dataSet: ArrayList<Product>) :
         val textViewProductPrice: TextView = view.findViewById(R.id.item_price)
     }
 
-    // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.list_row_item, viewGroup, false)
+                .inflate(R.layout.list_row_item, viewGroup, false)
 
         return ViewHolder(view)
     }
@@ -47,5 +46,9 @@ class ListAdapter(private val dataSet: ArrayList<Product>) :
 
     fun getItemAtPositition(position: Int) : Product {
         return this.dataSet[position]
+    }
+
+    fun switchEmptyViewHolder() {
+
     }
 }
